@@ -3,8 +3,10 @@ import express from "express";
 const app = express();
 const PORT = 8080;
 
+app.set("view engine", "ejs");
+
 app.get("/", (req, res) => {
-  res.send("Hello, world!");
+  res.render("index");
 });
 
 app.listen(PORT, () => {
