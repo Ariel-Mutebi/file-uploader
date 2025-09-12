@@ -1,4 +1,5 @@
 import { Router } from "express";
+import signUpRouter from "./signUpRouter.js";
 
 const indexRouter = Router();
 
@@ -9,5 +10,7 @@ const indexRouter = Router();
 indexRouter.get("/", (req, res) => {
   res.render("index");
 })
+
+indexRouter.use("/sign-up", signUpRouter);
 
 export default indexRouter;
