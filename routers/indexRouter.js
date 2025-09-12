@@ -1,5 +1,6 @@
 import { Router } from "express";
 import signUpRouter from "./signUpRouter.js";
+import loginRouter from "./loginRouter.js";
 
 const indexRouter = Router();
 
@@ -12,5 +13,6 @@ indexRouter.get("/", (req, res) => {
 })
 
 indexRouter.use("/sign-up", signUpRouter);
+indexRouter.use("/login", loginRouter);
 
 export default indexRouter;

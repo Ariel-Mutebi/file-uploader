@@ -14,6 +14,11 @@ const PORT = process.env.PORT;
 // generic middlewares
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+})
+
 // set up auth
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -26,9 +31,8 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 passport.deserializeUser(async(user, done) => {
-  const { id } = user;
   try {
-    done(null, await database.user.findUnique({where: { id }}));
+    done(null, await database.user.findUnique({where: { id: user }}));
   } catch (error) {
     console.error(error);
   }
