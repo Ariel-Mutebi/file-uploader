@@ -1,8 +1,8 @@
-<% const list = locals.errors?.map((error) => error.msg) || locals.messages; %>
-<% if(list) { %>
+<% const list = (locals.errors?.map((error) => error.msg) ||
+[]).concat(locals.messages || []); %> <% if(list) { %>
 <ul>
-  <% list.forEach((list) => { %>
-  <li><%= list %></li>
+  <% list.forEach((item) => { %>
+  <li><%= item %></li>
   <% }); %>
 </ul>
 <% } %>

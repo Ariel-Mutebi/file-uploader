@@ -2,17 +2,16 @@ import { Router } from "express";
 import { hash } from "bcryptjs";
 import database from "../singletons/database.js";
 import validateUser from "../middleware/validateUser.js";
+import renderWithSessionMessages from "../middleware/renderWithSessionMessages.js";
+import handleValidationErrors from "../middleware/handleValidationErrors.js";
 
 const signUpRouter = Router();
 
-signUpRouter.get("/", (req, res) => {
-  const { messages } = req.session;
-  res.render("signUp", { messages });
-  res.session.messages = [];
-});
+signUpRouter.get("/", renderWithSessionMessages("signUp"));
 
 signUpRouter.post("/",
   validateUser,
+  handleValidationErrors("signUp"),
   async(req, res) => {
     let { username, password } = req.body;
     password = await hash(password, 10);
