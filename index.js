@@ -11,15 +11,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// generic middlewares
+// middlewares
 app.use(express.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-})
-
-// set up auth
 app.use(session({
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
@@ -37,6 +30,10 @@ passport.deserializeUser(async(user, done) => {
     console.error(error);
   }
 });
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+})
 
 // set up views
 app.set("view engine", "ejs");
