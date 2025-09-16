@@ -5,6 +5,7 @@ import passport from "passport";
 import indexRouter from "./routers/indexRouter.js";
 import localStrategy from "./auth/localStrategy.js";
 import database from "./singletons/database.js";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 dotenv.config();
 
@@ -16,7 +17,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
-  resave: false
+  resave: false,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 1000, // one month
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
+  },
+  store: new PrismaSessionStore(database, {
+    checkPeriod: 24 * 60 * 1000, // each day
+    dbRecordIdIsSessionId: true,
+  })
 }));
 app.use(passport.session());
 passport.use(localStrategy);
