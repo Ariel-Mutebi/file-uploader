@@ -1,6 +1,7 @@
 import { Router } from "express";
 import signUpRouter from "./signUpRouter.js";
 import loginRouter from "./loginRouter.js";
+import uploadRouter from "./uploadRouter.js";
 
 const indexRouter = Router();
 
@@ -14,5 +15,6 @@ indexRouter.get("/", (req, res) => {
 
 indexRouter.use("/sign-up", signUpRouter);
 indexRouter.use("/login", loginRouter);
+indexRouter.use("/upload", uploadRouter);
 
 export default indexRouter;
